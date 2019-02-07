@@ -28,10 +28,6 @@ button {
     width: 50%;
 }
 
-.container {
-    padding: 16px;
-}
-
 .clearfix::after {
     content: "";
     clear: both;

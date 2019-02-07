@@ -1,39 +1,179 @@
 <!--Based on an example:
-https://www.w3schools.com/howto/howto_css_signup_form.asp -->
+https://www.crazycodersclub.com/appscript/crud-operation-on-google-spread-sheet-using-google-app-script-html-jquery/ -->
 
-<!DOCTYPE html>
 <html>
     <head>
-        <title> Check in </title>
         <link rel ="stylesheet" type= "text/css" href ="signupcss.css">
         <script type="text/javascript" src="cordova.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script>
+
+            var script_url = "https://script.google.com/macros/s/AKfycbyhyfxQ7-QPimcQenENSA3OmhQrsxQYJ_A-WQcyffC4Hy2Yu0E/exec";
+
+            // Make an AJAX call to Google Script
+            function insert_value() {
+
+                $("#re").css("visibility","hidden");
+                document.getElementById("loader").style.visibility = "visible";
+                $('#mySpinner').addClass('spinner');
+
+                var id1=	$("#id").val();
+                var name= $("#name").val();
+
+
+                var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=insert";
+
+
+                var request = jQuery.ajax({
+                    crossDomain: true,
+                    url: url ,
+                    method: "GET",
+                    dataType: "jsonp"
+                });
+
+            }
+
+
+
+
+
+
+
+            function update_value(){
+                $("#re").css("visibility","hidden");
+                document.getElementById("loader").style.visibility = "visible";
+
+
+                var id1=	$("#id").val();
+                var name= $("#name").val();
+
+
+
+                var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=update";
+
+
+                var request = jQuery.ajax({
+                    crossDomain: true,
+                    url: url ,
+                    method: "GET",
+                    dataType: "jsonp"
+                });
+
+
+            }
+
+
+
+
+
+            function delete_value(){
+                $("#re").css("visibility","hidden");
+                document.getElementById("loader").style.visibility = "visible";
+                $('#mySpinner').addClass('spinner');
+                var id1=	$("#id").val();
+                var name= $("#name").val();
+
+
+                var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=delete";
+
+
+                var request = jQuery.ajax({
+                    crossDomain: true,
+                    url: url ,
+                    method: "GET",
+                    dataType: "jsonp"
+                });
+
+            }
+
+
+
+
+            // print the returned data
+            function ctrlq(e) {
+
+
+                $("#re").html(e.result);
+                $("#re").css("visibility","visible");
+                read_value();
+
+            }
+
+
+
+
+            function read_value() {
+
+                $("#re").css("visibility","hidden");
+
+                document.getElementById("loader").style.visibility = "visible";
+                var url = script_url+"?action=read";
+
+                $.getJSON(url, function (json) {
+
+                    // Set the variables from the results array
+
+
+
+
+                    // CREATE DYNAMIC TABLE.
+                    var table = document.createElement("table");
+
+
+
+                    var header = table.createTHead();
+                    var row = header.insertRow(0);     
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+
+                    cell1.innerHTML = "<b>ID</b>";
+                    cell2.innerHTML = "<b>Name</b>";
+
+                    // ADD JSON DATA TO THE TABLE AS ROWS.
+                    for (var i = 0; i < json.records.length; i++) {
+
+                        tr = table.insertRow(-1);
+                        var tabCell = tr.insertCell(-1);
+                        tabCell.innerHTML = json.records[i].ID;
+                        tabCell = tr.insertCell(-1);
+                        tabCell.innerHTML = json.records[i].NAME;
+                    }
+
+
+                    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+                    var divContainer = document.getElementById("showData");
+                    divContainer.innerHTML = "";
+                    divContainer.appendChild(table);
+                    document.getElementById("loader").style.visibility = "hidden";
+                    $("#re").css("visibility","visible");
+                });
+            }
+
+        </script>
+
+
+
+
     </head>
-
     <body>
-        <form action ="https://docs.google.com/forms/d/e/1FAIpQLScFatnWZ8NCPK1gHuFCIdbUqv6knPy3g3A3M79bKkSIZklpQQ/formResponse" target="_self" method="POST" style="border:1px solid #ccc">
-            <!-- action til at gemme i google sheets -->
-            <div class="container">
-                <h1>Lav ny bruger</h1>
+        <div align="center">
+            <form >
+                Name
+                <input type = "text" name ="name" id="name">
+                Kode
+                <input type = "password" name ="id" id="id">
 
-                <label for="navn"><b>Navn</b></label>
-                <input type="text" placeholder="Skriv Fulde navn" name="entry.1767889029" required/>
-                <!-- input til at lave bruger navn -->
+            </form>
 
-                <label for="kodeord"><b>Kodeord</b></label>
-                <input type="password" placeholder="Skriv kodeord" name="entry.447919231" required/>
-                <!-- input til at lave adgangskode -->
+            <div id="loader"></div>
 
-                <label for="kodeordigen"><b>Kodeord</b></label>
-                <input type="password" placeholder="Skriv kodeord igen" name="form_kodeordigen" required/>
-                <!-- input til at gentage adgangskode -->
+            <p id="re"></p>
 
-                <div class="clearfix">
-                    <button type="button" onclick="location.href='Easylogin.html';"class="buttontilbage">Tilbage</button>
-                    <!-- knap til at gå tilbage til login side -->
-                    <button id="lav-bruger" type="submit" onclick="location.href='Easylogin.html';" class="buttonsignup">Lav bruger</button>
-                    <!-- knap til at lave bruger -->
-                </div>
-            </div>
-        </form>
+            <button type="submit" id ="b1" onclick="insert_value()" value="Insert" class="buttonsignup">Lav bruger</button>
+            <button type="button" onclick="location.href='Easylogin.html';"class="buttontilbage">Tilbage</button>
+            <div id="showData"></div>
+        </div>
     </body>
-</html> 
+    <div align="center">
+    </div>
+    <html>
