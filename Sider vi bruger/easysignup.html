@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Check in </title>
+        <link rel ="stylesheet" type= "text/css" href ="signupcss.css">
+        <script type="text/javascript" src="cordova.js"></script>
+    </head>
+
+    <body>
+        <form action ="https://docs.google.com/forms/d/e/1FAIpQLScFatnWZ8NCPK1gHuFCIdbUqv6knPy3g3A3M79bKkSIZklpQQ/formResponse" target="_self" method="POST" style="border:1px solid #ccc">
+            <!-- action til at gemme i google sheets -->
+            <div class="container">
+                <h1>Lav ny bruger</h1>
+
+                <label for="navn"><b>Navn</b></label>
+                <input type="text" placeholder="Skriv Fulde navn" name="entry.1767889029" required/>
+                <!-- input til at lave bruger navn -->
+
+                <label for="kodeord"><b>Kodeord</b></label>
+                <input type="password" placeholder="Skriv kodeord" name="entry.447919231" required/>
+                <!-- input til at lave adgangskode -->
+
+                <label for="kodeordigen"><b>Kodeord</b></label>
+                <input type="password" placeholder="Skriv kodeord igen" name="form_kodeordigen" required/>
+                <!-- input til at gentage adgangskode -->
+
+                <div class="clearfix">
+                    <button type="button" onclick="location.href='Easylogin.html';"class="buttontilbage">Tilbage</button>
+                    <!-- knap til at gå tilbage til login side -->
+                    <button id="lav-bruger" type="submit" class="buttonsignup">Lav bruger</button>
+                    <!-- knap til at lave bruger -->
+                </div>
+            </div>
+        </form>
+    </body>
+</html> 

@@ -1,0 +1,19 @@
+body{
+	background-color: lightblue;
+}
+
+#content {
+	width: 75%;
+	margin: auto;
+}
+
+#list{
+	background-color: green;
+}
+
+#refreshButton{
+	width: 100%;
+}
+#sendButton{
+	width: 100%;
+}
